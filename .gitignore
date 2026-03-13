@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Environment variables
+.env
+
+# Logs and temporary files
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Browser profiles
+chrome_profile*/
+msedge_profile*/
+gemini_chrome_profile/
+debug_profile/
+*_profile/
+*_profile_screening/
+
+# Data and results (Optional: ignore to avoid leaking API data)
+Articles/
+*.xlsx
+*.csv
+*.json
+*.bib
+!examples/*.json
+!examples/*.txt
+!template_*.xlsx

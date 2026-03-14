@@ -1,5 +1,7 @@
 # Systematic Review Screening Agent
 
+*Note: A screening agent applies protocol-defined inclusion and exclusion criteria to titles and abstracts. A dual-pass strategy is employed to ensure consistency in the AI decisions for screening, where each screening task is executed twice independently. Only when both outputs match is the decision finalised and exported into Google Sheets. The screening robustness is enhanced through cross-validation and stratified sampling. Outputs are partitioned by publication year.*
+
 An intelligent, AI-powered tool for automating the title and abstract screening process in systematic reviews. This tool uses **browser automation with Gemini AI** to generate custom screening logic tailored to your specific research criteria.
 
 ## 🌟 Features

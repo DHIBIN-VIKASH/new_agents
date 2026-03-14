@@ -1,5 +1,7 @@
 # SMR Deduplication Agent
 
+*Note: A deduplication agent identifies and removes duplicate records using DOI matching, title similarity, and author/year concordance. In cases of conflict, where duplication cannot be confidently determined, both documents are retained to avoid inadvertently removing valid entries. Deduplication outputs are logged and cross-checked against independent reviewers.*
+
 This agent automates the deduplication of bibliographic records from multiple academic databases (PubMed, Embase, Cochrane, Scopus, Web of Science, etc.). It uses a hierarchical matching logic (DOI, PMID, Exact Title, and Fuzzy Title Similarity) to identify and remove duplicates across different file formats.
 
 ## Features

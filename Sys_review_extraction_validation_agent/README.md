@@ -13,6 +13,9 @@ This tool automates the extraction of data from scientific PDF articles and vali
 - **Reporting:** Generates detailed reports on what data was changed (`healing_comparison_report.xlsx`) and what discrepancies remain (`validation_discrepancies.xlsx`).
     - *Note: The main `extracted_studies.xlsx` remains clean and free of validation metadata.*
 
+> [!NOTE]
+> Running the extraction and validation agents requires the user to have or input an API key. Google allows a certain amount of free credits for every user, which is more than sufficient for these extraction and validation purposes; you do not need to worry about costs for typical review workloads.
+
 ## Setup
 1.  **Environment:** Ensure Python 3.x is installed.
 2.  **Dependencies:** Install required packages.

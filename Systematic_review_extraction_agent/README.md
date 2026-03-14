@@ -18,6 +18,9 @@ An intelligent agent that automates data extraction from PDF full-text articles 
 - **📊 Excel Output**: Generates structured Excel files with extracted data
 - **🔁 Resume Support**: Automatically skips already-processed files
 
+> [!NOTE]
+> Running the extraction and validation agents requires the user to have or input an API key. Google allows a certain amount of free credits for every user, which is more than sufficient for these extraction and validation purposes; you do not need to worry about costs for typical review workloads.
+
 ## 📋 Prerequisites
 
 - **Python 3.8+**

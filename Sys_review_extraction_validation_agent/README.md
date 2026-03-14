@@ -25,14 +25,14 @@ This tool automates the extraction of data from scientific PDF articles and vali
 
 ## Usage
 
-### 1. Full Pipeline (API Default)
-Run the master orchestration script using your API key. This is the **strongly recommended** method as it is significantly faster and more stable.
+### 1. Full Pipeline (API Default - Recommended)
+Run the master orchestration script using your API key. This will perform **API-based validation, self-healing, and extraction**. It is significantly faster and more stable.
 ```bash
 python do_it_all.py --key "YOUR_API_KEY_HERE"
 ```
 
-### 2. Browser-Based Pipeline (Alternative)
-If you prefer to use the browser-based extraction (requires login):
+### 2. Browser-Based Pipeline (Alternative - Manual Fallback)
+If you prefer to use the browser-based interaction (requires login and is slower):
 ```bash
 python do_it_all.py --browser chrome
 ```

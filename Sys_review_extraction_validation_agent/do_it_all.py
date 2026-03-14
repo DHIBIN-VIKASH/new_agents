@@ -8,7 +8,8 @@ import time
 # Configuration
 API_EXTRACTOR_SCRIPT = 'gemini_api_extractor.py'
 BROWSER_EXTRACTOR_SCRIPT = 'gemini_extractor.py'
-VALIDATION_SCRIPT = 'validation_agent.py'
+API_VALIDATION_SCRIPT = 'gemini_api_validation_agent.py'
+BROWSER_VALIDATION_SCRIPT = 'validation_agent.py'
 DISCREPANCY_FILE = 'validation_discrepancies.xlsx'
 OUTPUT_FILE = 'extracted_studies.xlsx'
 ARTICLES_DIR = 'Articles'
@@ -110,15 +111,16 @@ def main():
 
     limit_args = ['--limit', args.limit] if args.limit else []
     
-    # Decide which extractor to use
     if args.key:
-        print("Using Gemini API for extraction. (Default/Recommended)")
+        print("Using Gemini API for extraction & validation. (Default/Recommended)")
         extractor_script = API_EXTRACTOR_SCRIPT
-        extraction_args = ['--key', args.key]
+        validation_script = API_VALIDATION_SCRIPT
+        api_args = ['--key', args.key]
     else:
-        print("Using Browser-based extraction. (Fallback)")
+        print("Using Browser-based extraction & validation. (Fallback)")
         extractor_script = BROWSER_EXTRACTOR_SCRIPT
-        extraction_args = ['--browser', args.browser]
+        validation_script = BROWSER_VALIDATION_SCRIPT
+        api_args = ['--browser', args.browser]
 
     # Clear previous logs to ensure we only heal NEW failures
     if os.path.exists(DISCREPANCY_FILE):
@@ -130,8 +132,7 @@ def main():
     
     # PHASE 1: Initial Validation
     print("\n=== PHASE 1: INITIAL VALIDATION ===")
-    # Note: Validation agent currently still uses browser for high-rigour manual-like checks
-    run_script(VALIDATION_SCRIPT, ['--browser', args.browser] + limit_args)
+    run_script(validation_script, api_args + limit_args)
     
     # PHASE 2: Self-Healing Loop
     print("\n=== PHASE 2: SELF-HEALING (RE-EXTRACT FAILURES) ===")
@@ -155,11 +156,11 @@ def main():
     before_healing_snapshot = cleanup_failed_entries(failed_files)
     
     print(f"Re-triggering extraction for {len(failed_files)} files...")
-    run_script(extractor_script, extraction_args + ['--files'] + failed_files)
+    run_script(extractor_script, api_args + ['--files'] + failed_files)
     
     # PHASE 3: Final Validation Check
     print("\n=== PHASE 3: FINAL VALIDATION OF HEALED DATA ===")
-    run_script(VALIDATION_SCRIPT, ['--browser', args.browser, '--files'] + failed_files)
+    run_script(validation_script, api_args + ['--files'] + failed_files)
     
     # Generate Comparison Report
     generate_healing_report(before_healing_snapshot, OUTPUT_FILE, failed_files)

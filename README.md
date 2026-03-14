@@ -1,5 +1,7 @@
 # Systematic Review Extraction & Validation Agent
 
+*Note: A verification agent continuously monitors logs, identifies discrepancies, and directs them to human reviewers. Dual independent reviewers validate AI outputs for deduplication, screening, and extraction. Discrepancies flagged by the verification agent are resolved through consensus adjudication. Audit trails document the origin of each data element, the agent responsible, and any human intervention. All records processed by the system are verified for validity, with human reviewers confirming that no fabricated or hallucinated data are introduced.*
+
 This tool automates the extraction of data from scientific PDF articles and validates the accuracy of that data using Google Gemini. It features a self-healing pipeline that automatically detects discrepancies and re-extracts data from failed articles.
 
 ## Key Features

@@ -6,7 +6,8 @@ import argparse
 import time
 
 # Configuration
-EXTRACTOR_SCRIPT = 'gemini_extractor.py'
+API_EXTRACTOR_SCRIPT = 'gemini_api_extractor.py'
+BROWSER_EXTRACTOR_SCRIPT = 'gemini_extractor.py'
 VALIDATION_SCRIPT = 'validation_agent.py'
 DISCREPANCY_FILE = 'validation_discrepancies.xlsx'
 OUTPUT_FILE = 'extracted_studies.xlsx'
@@ -102,11 +103,22 @@ def generate_healing_report(before_df, current_output_file, failed_files):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--browser", default="chrome", help="Browser to use")
+    parser.add_argument("--key", default=None, help="Gemini API Key (Default & Recommended)")
+    parser.add_argument("--browser", default="chrome", help="Browser to use (Fallback)")
     parser.add_argument("--limit", default=None, help="Limit the number of articles to process")
     args = parser.parse_args()
 
     limit_args = ['--limit', args.limit] if args.limit else []
+    
+    # Decide which extractor to use
+    if args.key:
+        print("Using Gemini API for extraction. (Default/Recommended)")
+        extractor_script = API_EXTRACTOR_SCRIPT
+        extraction_args = ['--key', args.key]
+    else:
+        print("Using Browser-based extraction. (Fallback)")
+        extractor_script = BROWSER_EXTRACTOR_SCRIPT
+        extraction_args = ['--browser', args.browser]
 
     # Clear previous logs to ensure we only heal NEW failures
     if os.path.exists(DISCREPANCY_FILE):
@@ -118,6 +130,7 @@ def main():
     
     # PHASE 1: Initial Validation
     print("\n=== PHASE 1: INITIAL VALIDATION ===")
+    # Note: Validation agent currently still uses browser for high-rigour manual-like checks
     run_script(VALIDATION_SCRIPT, ['--browser', args.browser] + limit_args)
     
     # PHASE 2: Self-Healing Loop
@@ -142,7 +155,7 @@ def main():
     before_healing_snapshot = cleanup_failed_entries(failed_files)
     
     print(f"Re-triggering extraction for {len(failed_files)} files...")
-    run_script(EXTRACTOR_SCRIPT, ['--browser', args.browser, '--files'] + failed_files)
+    run_script(extractor_script, extraction_args + ['--files'] + failed_files)
     
     # PHASE 3: Final Validation Check
     print("\n=== PHASE 3: FINAL VALIDATION OF HEALED DATA ===")

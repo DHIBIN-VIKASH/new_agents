@@ -1,5 +1,7 @@
 # Systematic Review Data Extraction Agent
 
+*Note: An extraction agent applies a predefined schema to capture key variables. Deterministic rules convert reported percentages into counts and standardise continuous outcomes. To enhance robustness, extraction tasks are subjected to cross-agent redundancy: two independent extraction agents process the same dataset using slightly different parsing strategies. Outputs are compared, and discrepancies are flagged for human adjudication. For entries with missing data, justification logs are generated, documenting the rationale for incomplete extraction and flagging these cases for human adjudication.*
+
 ![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Playwright](https://img.shields.io/badge/playwright-1.40+-orange.svg)

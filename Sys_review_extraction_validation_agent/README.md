@@ -1,56 +1,73 @@
-# Systematic Review Extraction & Validation Agent
+# ⚖️ Systematic Review Extraction & Validation Agent
 
-*Note: A verification agent continuously monitors logs, identifies discrepancies, and directs them to human reviewers. Dual independent reviewers validate AI outputs for deduplication, screening, and extraction. Discrepancies flagged by the verification agent are resolved through consensus adjudication. Audit trails document the origin of each data element, the agent responsible, and any human intervention. All records processed by the system are verified for validity, with human reviewers confirming that no fabricated or hallucinated data are introduced.*
+![Gemini](https://img.shields.io/badge/AI--Powered-Gemini-blue)
+![Python](https://img.shields.io/badge/Python-3.x-green)
+![Status](https://img.shields.io/badge/Self--Healing-Enabled-brightgreen)
 
-This tool automates the extraction of data from scientific PDF articles and validates the accuracy of that data. It primarily utilizes the **Google Gemini API** for efficient extraction, while providing a Playwright-based browser fallback. It features a self-healing pipeline that automatically detects discrepancies and re-extracts data from failed articles.
+An advanced agentic pipeline that not only extracts data but **validates** it for perfection. It features a continuous monitoring system that identifies discrepancies and re-extracts data automatically—ensuring your final results are high-fidelity and publication-ready.
 
-## Key Features
-- **Automated Extraction:** Extracts complex data fields including Study Design, Sample Size, Comorbidities, and Outcomes.
-- **Smart Validation:** Compares extracted data against the original PDF text.
-    - **CRITICAL Errors:** (Data mismatch >1%, swapped cohorts) trigger re-extraction.
-    - **MINOR Errors:** (Formatting, synonyms) are flagged but allowed to PASS.
-- **Self-Healing:** Automatically re-processes articles that fail validation.
-- **Reporting:** Generates detailed reports on what data was changed (`healing_comparison_report.xlsx`) and what discrepancies remain (`validation_discrepancies.xlsx`).
-    - *Note: The main `extracted_studies.xlsx` remains clean and free of validation metadata.*
+> [!IMPORTANT]
+> **Self-Healing Pipeline**: This agent automatically detects errors in extraction (by cross-checking against the PDF text) and triggers a second extraction attempt to correct mistakes.
+
+---
+
+## ✨ Key Features
+
+- **🤖 Automated Extraction**: Captures complex fields like Study Design, Sample Sizes, Comorbidities, and Outcomes.
+- **⚖️ Smart Validation**: Compares extracted data against the source PDF text with human-level accuracy.
+    - **CRITICAL Errors**: Triggers automatic re-extraction.
+    - **MINOR Errors**: Logged for review but allowed to pass if scientifically equivalent.
+- **♻️ Self-Healing**: Automatically repairs data entries that fail validation.
+- **📊 Audit Logging**: Detailed discrepancy reports in `validation_discrepancies.xlsx`.
 
 > [!NOTE]
 > Running the extraction and validation agents requires the user to have or input an API key. Google allows a certain amount of free credits for every user, which is more than sufficient for these extraction and validation purposes; you do not need to worry about costs for typical review workloads.
 
-## Setup
-1.  **Environment:** Ensure Python 3.x is installed.
-2.  **Dependencies:** Install required packages.
+---
+
+## 🛠️ Setup
+
+1.  **Dependencies**:
     ```bash
     pip install pandas openpyxl tqdm colorama google-generativeai playwright
     playwright install
     ```
-3.  **API Key (Default):** Obtain a free Gemini API key from [Google AI Studio](https://aistudio.google.com/app/apikey).
-4.  **Browser (Fallback):** For the browser-based method, ensure you are logged into Gemini in your Chrome/Edge profile.
+2.  **API Key**: Obtain a free key from [Google AI Studio](https://aistudio.google.com/app/apikey).
+3.  **Articles**: Place your research PDFs in the `Articles/` folder.
 
-## Usage
+---
 
-### 1. Full Pipeline (API Default - Recommended)
-Run the master orchestration script using your API key. This will perform **API-based validation, self-healing, and extraction**. It is significantly faster and more stable.
+## 🚀 Usage
+
+### ⚡ Full Pipeline (API Default - Recommended)
+Runs the entire validation and self-healing loop using high-speed API calls.
 ```bash
 python do_it_all.py --key "YOUR_API_KEY_HERE"
 ```
 
-### 2. Browser-Based Pipeline (Alternative - Manual Fallback)
-If you prefer to use the browser-based interaction (requires login and is slower):
+### 🌐 Manual Fallback (Browser-Based)
+If you prefer to use the browser interactive mode:
 ```bash
 python do_it_all.py --browser chrome
 ```
 
-### 3. File Inputs/Outputs
-- **Input:** `Articles/` directory containing PDF references.
-- **Input Template:** `template_extracted_studies.xlsx` (Optional).
-- **Output:** `extracted_studies.xlsx` (The final data).
-- **Logs:**
-    - `validation_discrepancies.xlsx`: Detailed findings from the validation agent.
-    - `healing_comparison_report.xlsx`: Snapshot of values corrected during self-healing.
+---
 
-## Validation Logic
-The agent uses a tiered system to judge accuracy:
-- **PASS:** Data is 100% correct OR has only **MINOR** issues (rounding <1%, "Male" vs "Men").
-- **FAIL:** Data has **CRITICAL** issues (wrong numbers, missing data).
-- **FAIL:** Data has **CRITICAL** issues (wrong numbers, missing data).
-- **Feedback:** Detailed feedback is logged in sections `validation_discrepancies.xlsx`. The main output file is kept clean.
+## 📋 Validation Tiers
+
+The agent uses a tiered system to judge accuracy for professional scientific standards:
+
+- ✅ **PASS**: Data is 100% correct OR only has **MINOR** issues (e.g., rounding <1%, "Male" vs "Men").
+- ❌ **FAIL**: Data has **CRITICAL** issues (e.g., swapped cohorts, wrong numerical values, missing findings).
+- 🛠️ **HEALED**: Articles that failed are re-extracted and re-validated.
+
+---
+
+## 📁 File Reference
+
+- **`extracted_studies.xlsx`**: Your final, "healed" data results.
+- **`validation_discrepancies.xlsx`**: Detailed findings from the validation agent.
+- **`healing_comparison_report.xlsx`**: Snapshot of values corrected during the self-healing phase.
+
+---
+**Made with ❤️ for systematic review researchers**
